@@ -1,0 +1,18 @@
+Calibration_one_shot pseudocode:
+
+sphere_properties = load_sphere_properties() // assume array with one entry per sphere
+tcp_pos = robot.get_tcp_pos()
+
+errs = double[size(sphere_properties)]
+
+img = Zivid.hdr_snapshot()
+for i in range(0,size(sphere_properties)):
+	errs[i] = fit_sphere(tcp_pos + sphere_properties[i].center, sphere_properties[i].radius, img)
+
+while norm(errs, inf) >= tol://or some other norm/measure of size of error
+	//Tweak parameters here
+
+
+	img = Zivid.hdr_snapshot()
+	for i in range(0,size(sphere_properties)):
+		errs[i] = fit_sphere(tcp_pos + sphere_properties[i].center, sphere_properties[i].radius, img)
